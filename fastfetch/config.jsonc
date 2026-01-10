@@ -1,0 +1,79 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+  // ===============================
+  // Logo (ASCII)
+  // ===============================
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/logo.txt",
+    "padding": {
+      "right": 3
+    }
+  },
+
+  // ===============================
+  // Display
+  // ===============================
+  "display": {
+    "separator": "  →  "
+  },
+
+  // ===============================
+  // Modules
+  // ===============================
+  "modules": [
+
+    // --- Identity ---
+    { "type": "os",     "key": "OS" },
+    { "type": "kernel", "key": "Kernel" },
+    { "type": "host",   "key": "Host" },
+
+    // --- Time ---
+    {
+      "type": "command",
+      "key": "System age",
+      "text": "~/.local/bin/system-age.sh"
+    },
+    { "type": "uptime", "key": "Uptime" },
+
+    // --- Software ---
+    { "type": "packages", "key": "Packages" },
+    { "type": "shell",    "key": "Shell" },
+    { "type": "terminal", "key": "Terminal" },
+
+    // Explicit WM 
+    {
+      "type": "command",
+      "key": "WM",
+      "text": "echo Xmonad"
+    },
+
+    // --- Hardware ---
+    { "type": "cpu",    "key": "CPU" },
+    { "type": "gpu",    "key": "GPU" },
+    { "type": "memory", "key": "Memory" },
+
+    // --- Disks (NAMED, bewusst ausgewählt) ---
+    {
+      "type": "disk",
+      "key": "Root",
+      "folders": [ "/" ]
+    },
+    {
+      "type": "disk",
+      "key": "Games Vol.1",
+      "folders": [ "/mnt/games1" ]
+    },
+    {
+      "type": "disk",
+      "key": "Games Vol.2",
+      "folders": [ "/mnt/games2" ]
+    },
+    {
+      "type": "disk",
+      "key": "Homelab",
+      "folders": [ "/mnt/homelab" ]
+    }
+  ]
+}
