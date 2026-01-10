@@ -1,92 +1,93 @@
-🇩🇪 **NixOS-Systemkonfiguration für meinen Main-PC (KDE Plasma)**  
-🇬🇧 **NixOS system configuration for my main PC (KDE Plasma)**
+# 🐙 cthulhu
+
+> Personal system backups — **archive, not a project**
+
+![Linux](https://img.shields.io/badge/Linux-%F0%9F%90%A7-black?style=for-the-badge)
+![Backups](https://img.shields.io/badge/Backups-Human%20Readable-blue?style=for-the-badge)
+![No%20Magic](https://img.shields.io/badge/No%20Magic-No%20Snapshots-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Personal%20Archive-purple?style=for-the-badge)
+![WorksOnMyMachine](https://img.shields.io/badge/Works-On%20My%20Machine-success?style=for-the-badge)
 
 ---
 
-## 🇩🇪 Beschreibung
+## What this repository is
 
-**Cthulhu** ist meine **NixOS-Systemkonfiguration für meinen Desktop-PC**, mit Fokus auf **KDE Plasma**, Gaming, Benchmarks und Experimente.  
-Das System dient als **Hauptarbeits- und Testumgebung**.
+This repository is a **personal archive of system backups**.
 
-Dieses Repository fungiert gleichzeitig als **vollständiges System-Backup**.  
-Die Konfiguration ist deklarativ, versioniert und jederzeit reproduzierbar.
+It contains backups from **multiple Linux systems and distributions**, created solely for **my own recovery, documentation, and reference**.
 
----
+Systems may include:
 
-## 🇬🇧 Description
+- Gentoo
+- NixOS
+- Arch Linux
+- Debian
+- Experimental builds
 
-**Cthulhu** is my **NixOS system configuration for my desktop PC**, focused on **KDE Plasma**, gaming, benchmarks and experimentation.  
-The system acts as my **primary workstation and lab environment**.
-
-This repository also serves as a **complete system backup**.  
-The configuration is declarative, versioned, and fully reproducible.
+This is **not a public project**.
 
 ---
 
-## 🎯 Goals / Ziele
+## What is stored here
 
-- Fully declarative NixOS configuration
-- KDE Plasma desktop
-- Optimized for high-end desktop hardware
-- NVIDIA GPU support
-- Gaming, benchmarking and experimentation
-- Fast rollback and reproducibility
-- Version-controlled system state
+Depending on the snapshot, this repository may contain:
+
+- System configuration files
+- Package lists
+- Window manager configs (XMonad, etc.)
+- Desktop configs (picom, rofi, scripts)
+- Selected dotfiles
+- System metadata
+
+Everything is stored as **plain text**.  
+No disk images. No snapshots. No black boxes.
+
+---
+
+## What this repository is NOT
+
+- ❌ Not a Linux distribution  
+- ❌ Not an installer  
+- ❌ Not a one-click restore solution  
+- ❌ Not a backup tool for others  
+
+This is a **personal knowledge archive**.
 
 ---
 
-## 🧠 System Philosophy / System-Philosophie
+## Why this exists
 
-🇩🇪  
-Dieses Repository ist das **Single Source of Truth** für mein Main-System.  
-Jede relevante Systemeigenschaft ist:
+Linux systems are **built, not installed**.
 
-- dokumentiert
-- versioniert
-- reproduzierbar
+This repository preserves:
+- decisions
+- structure
+- intent
 
-Rollback ist jederzeit möglich, ohne Neuinstallation.
-
-🇬🇧  
-This repository acts as the **single source of truth** for my main system.  
-Every relevant system aspect is:
-
-- documented
-- versioned
-- reproducible
-
-Rollbacks are always possible without reinstalling.
+If something breaks, or I rebuild from scratch, this repo explains **why things were the way they were**.
 
 ---
-## 🖥️ Hardware Target / Zielhardware
-AMD Ryzen 7 5800X3D
 
-NVIDIA RTX 3060 Ti
+## Philosophy
 
-32 GB DDR4 RAM
+> “Backups should explain systems.”
 
-Multiple NVMe SSDs
+- Human-readable over automated
+- Structure over images
+- Understanding over convenience
+- Boring is good
 
-High-refresh display setup
+---
 
-⚠️ Disclaimer
-🇩🇪
-Diese Konfiguration ist auf meine Hardware zugeschnitten.
-Sie dient primär als Backup und Dokumentation meines Systems.
+## Disclaimer
 
-🇬🇧
-This configuration is tailored to my hardware.
-It primarily serves as a backup and documentation of my system.
+⚠️ **Personal archive**  
+⚠️ **No support**  
+⚠️ **No guarantees**  
+⚠️ **Use at your own risk**
 
-## 🧱 Repository Structure / Struktur
+---
 
-```text
-cthulhu/
-├── nixos/
-│   ├── configuration.nix
-│   ├── hardware-configuration.nix
-│   ├── plasma/
-│   └── modules/
-├── scripts/
-├── benchmarks/
-└── README.md
+*If you found this repository:  
+Yes, it works on my machine.  
+No, it is not meant to work on yours.*
