@@ -16,14 +16,6 @@ This repository is a **personal archive of system backups**.
 
 It contains backups from **multiple Linux systems and distributions**, created solely for **my own recovery, documentation, and reference**.
 
-Systems may include:
-
-- Gentoo
-- NixOS
-- Arch Linux
-- Debian
-- Experimental builds
-
 This is **not a public project**.
 
 ---
@@ -78,7 +70,71 @@ If something breaks, or I rebuild from scratch, this repo explains **why things 
 - Boring is good
 
 ---
+## 🧟 Systems I Survived
 
+A completely unnecessary, but historically accurate list.
+
+### 🐧 Linux Distributions
+
+- ☠️ **Gentoo** — survived multiple rebuilds, USE flag wars, and NVIDIA
+- ☠️ **NixOS** — survived flakes, non-flakes, and existential config refactors
+- ☠️ **Arch Linux** — survived rolling updates and occasional self-inflicted wounds
+- ☠️ **Debian** — survived stability (and boredom)
+- ☠️ **Linux Mint** — survived comfort
+- ☠️ **Ubuntu / Ubuntu Studio** — survived default decisions
+- ☠️ **MX Linux** — survived curiosity
+- ☠️ **antiX** — survived minimalism taken personally
+- ☠️ **Pop!_OS** — survived tiling… briefly
+- ☠️ **Void Linux** — survived init system discussions
+- ☠️ **Fedora** — survived “almost works”
+- ☠️ **Slackware** — survived the thought experiment
+- ☠️ **Linux From Scratch** — survived the manual (mostly)
+
+---
+
+### 🪟 Window Managers & Desktops
+
+- 🧠 **XMonad** — survived and returned (multiple times)
+- 🧱 **dwm** — survived patches
+- 🧩 **Qtile** — survived Python configs
+- 🪜 **Bspwm** — survived shell scripts
+- 🧭 **i3** — survived keybindings
+- 🪵 **Ratpoison** — survived time travel
+- 🧨 **evilwm** — survived extreme minimalism
+- 🧪 **BoringWM** — survived being written
+- 🖥️ **XFCE** — survived when things needed to just work
+- 🎨 **Cinnamon** — survived aesthetics
+- 🧊 **KDE Plasma (X11)** — survived configuration panels
+- 😬 **GNOME** — survived briefly
+
+---
+
+### 🏁 Current Status
+
+> ✅ **Still standing**
+
+- **Distro:** Gentoo  
+- **WM:** XMonad  
+- **Display:** X11  
+- **Compositor:** picom  
+- **Audio:** PipeWire (SPDIF, because why not)  
+- **GPU:** NVIDIA (yes, really)  
+- **Gaming:** WoW Classic + Steam  
+- **Streaming:** OBS  
+- **Sanity:** questionable but stable  
+
+**Outcome:**  
+👉 *This is where I stopped hopping and started using the system.*
+
+---
+
+### 📌 Final Note
+
+> All systems were tested.  
+> Some were enjoyed.  
+> Most were educational.  
+> Gentoo + XMonad survived everything.
+---
 ## Disclaimer
 
 ⚠️ **Personal archive**  
