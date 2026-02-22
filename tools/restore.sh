@@ -38,6 +38,9 @@ restore_component() {
     dunst)
       copy_to_user_config "${CTHULHU_ROOT}/Dunst/dunst" "${HOME}/.config/dunst" "${backup_root}" || true
       ;;
+    wallpaper)
+      copy_to_user_config "${CTHULHU_ROOT}/.wallpaper" "${HOME}/.wallpaper" "${backup_root}" || true
+      ;;
     dwm)
       copy_to_user_config "${CTHULHU_ROOT}/WM/dwm/dwm" "${HOME}/.config/dwm" "${backup_root}" || true
       ;;
@@ -71,7 +74,7 @@ restore_component() {
       ;;
     all)
       local item
-      for item in fastfetch rofi picom dunst dwm xmonad hyprland xfce cinnamon plasma gnome; do
+      for item in fastfetch rofi picom dunst wallpaper dwm xmonad hyprland xfce cinnamon plasma gnome; do
         restore_component "${item}"
       done
       return
