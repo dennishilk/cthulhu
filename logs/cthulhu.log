@@ -1,0 +1,26 @@
+2026-02-22 07:47:20 [INFO] Command succeeded: nixos-version
+2026-02-22 07:47:20 [INFO] Command succeeded: nix-channel --list
+2026-02-22 07:47:20 [INFO] System snapshot saved to /home/nebu/Git/cthulhu/NixOS/2026-02-22
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/fastfetch -> /home/nebu/Git/cthulhu/Fastfetch/fastfetch
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/rofi
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/picom
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/dunst -> /home/nebu/Git/cthulhu/Dunst/dunst
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.wallpaper -> /home/nebu/Git/cthulhu/.wallpaper
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/dwm
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.xmonad
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/hypr
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/xfce4
+2026-02-22 07:47:24 [WARN] Missing source path: /home/nebu/.config/cinnamon
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasma-localerc -> /home/nebu/Git/cthulhu/DE/plasma/plasma-localerc
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasmanotifyrc -> /home/nebu/Git/cthulhu/DE/plasma/plasmanotifyrc
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasma-org.kde.plasma.desktop-appletsrc -> /home/nebu/Git/cthulhu/DE/plasma/plasma-org.kde.plasma.desktop-appletsrc
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasmaparc -> /home/nebu/Git/cthulhu/DE/plasma/plasmaparc
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasmashellrc -> /home/nebu/Git/cthulhu/DE/plasma/plasmashellrc
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/plasma-workspace -> /home/nebu/Git/cthulhu/DE/plasma/plasma-workspace
+2026-02-22 07:47:24 [INFO] Copied /home/nebu/.config/gnome-session -> /home/nebu/Git/cthulhu/DE/gnome/gnome-session
+2026-02-22 07:47:24 [INFO] Core configuration snapshot complete
+2026-02-22 07:48:06 [INFO] cthulhu push started in /home/nebu/Git/cthulhu/tools on branch main
+2026-02-22 07:48:06 [INFO] staging all changes with git add -A
+2026-02-22 07:48:06 [INFO] creating commit: 🐙 Snapshot update: 2026-02-22 07:48
+2026-02-22 07:49:07 [INFO] cthulhu push started in /home/nebu/Git/cthulhu/tools on branch main
+2026-02-22 07:49:07 [INFO] staging all changes with git add -A
