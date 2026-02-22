@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=tools/utils.sh
+source "${SCRIPT_DIR}/utils.sh"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  cthulhu save system
+  cthulhu save core
+  cthulhu restore system <distro> <date>
+  cthulhu restore core <component|all>
+  cthulhu list systems
+  cthulhu list core
+USAGE
+}
+
+list_systems() {
+  local distro
+  for distro in Debian NixOS Gentoo Arch; do
+    printf '%s:\n' "${distro}"
+    if compgen -G "${CTHULHU_ROOT}/${distro}/20??-??-??" >/dev/null; then
+      find "${CTHULHU_ROOT}/${distro}" -mindepth 1 -maxdepth 1 -type d -printf '  - %f\n' | sort
+    else
+      printf '  - none\n'
+    fi
+  done
+}
+
+list_core() {
+  cat <<'CORE'
+Core components:
+  - fastfetch
+  - rofi
+  - picom
+  - dunst
+  - dwm
+  - xmonad
+  - hyprland
+  - plasma
+  - xfce
+  - cinnamon
+  - gnome
+CORE
+}
+
+main() {
+  local command="${1:-}"
+  local scope="${2:-}"
+
+  case "${command}:${scope}" in
+    save:system)
+      "${SCRIPT_DIR}/save_system.sh"
+      ;;
+    save:core)
+      "${SCRIPT_DIR}/save_core.sh"
+      ;;
+    restore:system)
+      [[ $# -eq 4 ]] || { usage; exit 2; }
+      "${SCRIPT_DIR}/restore.sh" system "$3" "$4"
+      ;;
+    restore:core)
+      [[ $# -eq 3 ]] || { usage; exit 2; }
+      "${SCRIPT_DIR}/restore.sh" core "$3"
+      ;;
+    list:systems)
+      list_systems
+      ;;
+    list:core)
+      list_core
+      ;;
+    *)
+      usage
+      exit 2
+      ;;
+  esac
+}
+
+main "$@"
