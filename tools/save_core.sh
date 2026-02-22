@@ -11,6 +11,15 @@ save_pair() {
   copy_into_repo "${source_path}" "${destination_path}" || true
 }
 
+save_optional_pair() {
+  local source_path="$1"
+  local destination_path="$2"
+
+  if [[ -e "${source_path}" ]]; then
+    copy_into_repo "${source_path}" "${destination_path}" || true
+  fi
+}
+
 save_globbed_configs() {
   local pattern="$1"
   local target_dir="$2"
@@ -36,6 +45,7 @@ main() {
   save_pair "${HOME}/.config/rofi" "${CTHULHU_ROOT}/Rofi/rofi"
   save_pair "${HOME}/.config/picom" "${CTHULHU_ROOT}/Picom/picom"
   save_pair "${HOME}/.config/dunst" "${CTHULHU_ROOT}/Dunst/dunst"
+  save_optional_pair "${HOME}/.wallpaper" "${CTHULHU_ROOT}/.wallpaper"
 
   save_pair "${HOME}/.config/dwm" "${CTHULHU_ROOT}/WM/dwm/dwm"
   save_pair "${HOME}/.xmonad" "${CTHULHU_ROOT}/WM/xmonad/xmonad"
