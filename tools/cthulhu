@@ -14,6 +14,7 @@ Usage:
   cthulhu restore core <component|all>
   cthulhu list systems
   cthulhu list core
+  cthulhu push
 USAGE
 }
 
@@ -46,6 +47,53 @@ Core components:
 CORE
 }
 
+push_repo() {
+  if ! command -v git >/dev/null 2>&1; then
+    error "git is not installed"
+    printf 'Error: git is not installed.\n' >&2
+    exit 1
+  fi
+
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    error "current directory is not inside a git repository: ${PWD}"
+    printf 'Error: current directory is not inside a git repository.\n' >&2
+    exit 1
+  fi
+
+  if ! git remote get-url origin >/dev/null 2>&1; then
+    error "git remote \"origin\" is not configured"
+    printf 'Error: remote "origin" is not configured.\n' >&2
+    exit 1
+  fi
+
+  local current_branch
+  current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  if [[ "${current_branch}" == "HEAD" || -z "${current_branch}" ]]; then
+    error "unable to determine current branch (detached HEAD)"
+    printf 'Error: unable to determine current branch (detached HEAD).\n' >&2
+    exit 1
+  fi
+
+  info "cthulhu push started in ${PWD} on branch ${current_branch}"
+  info "staging all changes with git add -A"
+  git add -A
+
+  if [[ -z "$(git status --porcelain)" ]]; then
+    info "nothing to push after staging"
+    printf 'Nothing to push.\n'
+    return 0
+  fi
+
+  local commit_message
+  commit_message="🐙 Snapshot update: $(date '+%Y-%m-%d %H:%M')"
+  info "creating commit: ${commit_message}"
+  git commit -m "${commit_message}"
+
+  info "pushing commit to origin/${current_branch}"
+  git push origin "${current_branch}"
+  info "cthulhu push completed successfully"
+}
+
 main() {
   local command="${1:-}"
   local scope="${2:-}"
@@ -70,6 +118,10 @@ main() {
       ;;
     list:core)
       list_core
+      ;;
+    push:)
+      [[ $# -eq 1 ]] || { usage; exit 2; }
+      push_repo
       ;;
     *)
       usage
