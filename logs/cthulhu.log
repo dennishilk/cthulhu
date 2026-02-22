@@ -1,0 +1,19 @@
+[2026-02-22 06:06:35] [INFO] Listing system snapshots
+[2026-02-22 06:06:36] [INFO] Listing archived core components
+[2026-02-22 06:06:38] [INFO] Detected distro: debian
+[2026-02-22 06:06:38] [INFO] Saving system snapshot to /workspace/cthulhu/systems/debian/2026-02-22
+[2026-02-22 06:06:38] [INFO] Running command: dpkg --get-selections
+[2026-02-22 06:06:39] [INFO] Saved output to /workspace/cthulhu/systems/debian/2026-02-22/dpkg-selections.txt
+[2026-02-22 06:06:39] [INFO] Copied /etc/apt/sources.list -> /workspace/cthulhu/systems/debian/2026-02-22/sources.list
+[2026-02-22 06:06:39] [INFO] Copied /etc/apt/sources.list.d -> /workspace/cthulhu/systems/debian/2026-02-22/sources.list.d
+[2026-02-22 06:06:39] [INFO] Saved kernel version
+[2026-02-22 06:06:39] [INFO] System snapshot complete
+[2026-02-22 06:06:40] [INFO] Detected WM: unknown
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.config/fastfetch
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.config/rofi
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.config/picom
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.config/dunst
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.config/kitty
+[2026-02-22 06:06:40] [WARN] Core component not found: /root/.zshrc
+[2026-02-22 06:06:40] [WARN] No plasma* entries found in ~/.config
+[2026-02-22 06:06:40] [INFO] Core save complete

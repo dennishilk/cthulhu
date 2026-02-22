@@ -1,148 +1,202 @@
-# 🐙 cthulhu
+# cthulhu
 
-> Personal system backups — **archive, not a project**
+`cthulhu` is a production-oriented, Bash-based framework for archiving and restoring Linux system metadata and user configuration across multiple distributions.
 
-![Backups](https://img.shields.io/badge/Backups-Human%20Readable-blue?style=for-the-badge)
-![No%20Magic](https://img.shields.io/badge/No%20Magic-No%20Snapshots-red?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Personal%20Archive-purple?style=for-the-badge)
-![WorksOnMyMachine](https://img.shields.io/badge/Works-On%20My%20Machine-success?style=for-the-badge)
+It is designed around three ideas:
 
----
+- **System snapshots are distro-specific** (package inventories, distro config, kernel context).
+- **Core user configs are distro-independent** (rofi, picom, dunst, kitty, zsh, etc.).
+- **Window manager configs are tracked explicitly** (dwm, xmonad, plasma).
 
-## What this repository is
-
-This repository is a **personal archive of system backups**.
-
-It contains backups from **multiple Linux systems and distributions**, created solely for **my own recovery, documentation, and reference**.
-
-This is **not a public project**.
-
----
-
-## What is stored here
-
-Depending on the snapshot, this repository may contain:
-
-- System configuration files
-- Package lists
-- Window manager configs (XMonad, etc.)
-- Desktop configs (picom, rofi, scripts)
-- Selected dotfiles
-- System metadata
-
-Everything is stored as **plain text**.  
-No disk images. No snapshots. No black boxes.
-
----
-
-## What this repository is NOT
-
-- ❌ Not a Linux distribution  
-- ❌ Not an installer  
-- ❌ Not a one-click restore solution  
-- ❌ Not a backup tool for others  
-
-This is a **personal knowledge archive**.
-
----
-
-## Why this exists
-
-Linux systems are **built, not installed**.
-
-This repository preserves:
-- decisions
-- structure
-- intent
-
-If something breaks, or I rebuild from scratch, this repo explains **why things were the way they were**.
+The implementation is pure Bash with standard Linux tooling, modularized for maintainability and safe-by-default restore behavior.
 
 ---
 
 ## Philosophy
 
-> “Backups should explain systems.”
-
-- Human-readable over automated
-- Structure over images
-- Understanding over convenience
-- Boring is good
-
----
-## 🧟 Systems I Survived
-
-A completely unnecessary, but historically accurate list.
-
-### 🐧 Linux Distributions
-
-- ☠️ **Gentoo** — survived multiple rebuilds, USE flag wars, and NVIDIA
-- ☠️ **NixOS** — survived flakes, non-flakes, and existential config refactors
-- ☠️ **Arch Linux** — survived rolling updates and occasional self-inflicted wounds
-- ☠️ **Debian** — survived stability (and boredom)
-- ☠️ **Linux Mint** — survived comfort
-- ☠️ **Ubuntu / Ubuntu Studio** — survived default decisions
-- ☠️ **MX Linux** — survived curiosity
-- ☠️ **antiX** — survived minimalism taken personally
-- ☠️ **Pop!_OS** — survived tiling… briefly
-- ☠️ **Void Linux** — survived init system discussions
-- ☠️ **Fedora** — survived “almost works”
-- ☠️ **Slackware** — survived the thought experiment
-- ☠️ **Linux From Scratch** — survived the manual (mostly)
+- **Safe operations first**: restore paths are never overwritten silently; user confirmation is required.
+- **Defensive and portable**: commands are checked before use; unavailable tools are skipped and logged.
+- **Predictable filesystem layout**: snapshots and component archives have stable, explicit paths.
+- **Simple extension model**: add distro handlers and component mappings without rewriting the CLI.
 
 ---
 
-### 🪟 Window Managers & Desktops
+## Folder Structure
 
-- 🧠 **XMonad** — survived and returned (multiple times)
-- 🧱 **dwm** — survived patches
-- 🧩 **Qtile** — survived Python configs
-- 🪜 **Bspwm** — survived shell scripts
-- 🧭 **i3** — survived keybindings
-- 🪵 **Ratpoison** — survived time travel
-- 🧨 **evilwm** — survived extreme minimalism
-- 🧪 **BoringWM** — survived being written
-- 🖥️ **XFCE** — survived when things needed to just work
-- 🎨 **Cinnamon** — survived aesthetics
-- 🧊 **KDE Plasma (X11)** — survived configuration panels
-- 😬 **GNOME** — survived briefly
-
----
-
-### 🏁 Current Status
-
-> ✅ **Still standing**
-
-- **Distro:** Gentoo  
-- **WM:** XMonad  
-- **Display:** X11  
-- **Compositor:** picom  
-- **Audio:** PipeWire (SPDIF, because why not)  
-- **GPU:** NVIDIA (yes, really)  
-- **Gaming:** WoW Classic + Steam  
-- **Streaming:** OBS  
-- **Sanity:** questionable but stable  
-
-**Outcome:**  
-👉 *This is where I stopped hopping and started using the system.*
-
----
-
-### 📌 Final Note
-
-> All systems were tested.  
-> Some were enjoyed.  
-> Most were educational.  
-> Gentoo + XMonad survived everything.
----
-## Disclaimer
-
-⚠️ **Personal archive**  
-⚠️ **No support**  
-⚠️ **No guarantees**  
-⚠️ **Use at your own risk**
+```text
+cthulhu/
+├── bin/
+│   └── cthulhu
+├── lib/
+│   ├── detect.sh
+│   ├── save_system.sh
+│   ├── save_core.sh
+│   ├── restore.sh
+│   └── utils.sh
+├── systems/
+│   ├── nixos/
+│   ├── gentoo/
+│   ├── debian/
+│   ├── arch/
+│   └── unknown/
+├── core/
+│   ├── fastfetch/
+│   ├── rofi/
+│   ├── picom/
+│   ├── dunst/
+│   ├── kitty/
+│   ├── zsh/
+│   └── wm/
+│       ├── dwm/
+│       ├── xmonad/
+│       └── plasma/
+├── logs/
+└── README.md
+```
 
 ---
 
-*If you found this repository:  
-Yes, it works on my machine.  
-No, it is not meant to work on yours.*
+## Installation / Invocation
+
+From repository root:
+
+```bash
+chmod +x bin/cthulhu
+./bin/cthulhu --help
+```
+
+Optionally add `bin/` to your `PATH`.
+
+---
+
+## Commands
+
+### Save
+
+```bash
+cthulhu save system
+cthulhu save core
+```
+
+### Restore
+
+```bash
+cthulhu restore system <distro> <YYYY-MM-DD>
+cthulhu restore core <component|all>
+```
+
+### List archives
+
+```bash
+cthulhu list systems
+cthulhu list core
+```
+
+---
+
+## What `save system` stores
+
+`save system` detects distro from `/etc/os-release`, then writes into:
+
+```text
+systems/<distro>/<YYYY-MM-DD>/
+```
+
+### Gentoo
+
+- `qlist -I` output (if available)
+- `emerge --info` output (if available)
+- `/var/lib/portage/world` (if present)
+- `uname -r`
+
+### NixOS
+
+- `/etc/nixos/configuration.nix`
+- `~/flake.nix` (if present)
+- `nixos-version`
+- `nix-channel --list` (if available)
+
+### Debian family
+
+- `dpkg --get-selections`
+- `/etc/apt/sources.list`
+- `/etc/apt/sources.list.d`
+- `uname -r`
+
+### Arch family
+
+- `pacman -Qe`
+- `pacman -Qm`
+- `uname -r`
+
+If a command is missing, it is skipped safely and recorded in `logs/cthulhu.log`.
+
+---
+
+## What `save core` stores
+
+`save core` copies user components when present:
+
+- `~/.config/fastfetch`
+- `~/.config/rofi`
+- `~/.config/picom`
+- `~/.config/dunst`
+- `~/.config/kitty`
+- `~/.zshrc`
+- `~/.config/dwm`
+- `~/.xmonad`
+- `~/.config/plasma*`
+
+Data is archived under `core/<component>/` while preserving structure via `cp -a`.
+
+---
+
+## Restore Safety Model
+
+All restore operations follow these rules:
+
+1. **Confirmation before overwrite** for any existing target path.
+2. **Automatic backup** of current target content to:
+   - `~/.config/cthulhu-backup-<YYYY-MM-DD>/`
+3. **Append-only action logging** in:
+   - `logs/cthulhu.log`
+
+System restore copies selected snapshot metadata to:
+
+```text
+~/.config/cthulhu-restored-system/
+```
+
+This keeps restore actions explicit and non-destructive.
+
+---
+
+## Logging
+
+Every operation logs with timestamp and severity (`INFO`, `WARN`, `ERROR`) into:
+
+```text
+logs/cthulhu.log
+```
+
+This includes skipped commands, copied files, backup operations, and restore actions.
+
+---
+
+## Extend to New Distros
+
+To add a new distro:
+
+1. Add a directory under `systems/<newdistro>/`.
+2. Update `normalize_distro()` in `lib/detect.sh`.
+3. Add `save_<newdistro>()` in `lib/save_system.sh`.
+4. Wire it into `save_system()` case dispatch.
+
+To add new core components:
+
+1. Add folder under `core/<component>/`.
+2. Add `save_component` and restore mapping in:
+   - `lib/save_core.sh`
+   - `lib/restore.sh`
+
+The CLI and utilities are already modular, so extension is local and low risk.
