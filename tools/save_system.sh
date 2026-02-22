@@ -50,6 +50,18 @@ main() {
   fi
 
   local dated_dir="${CTHULHU_ROOT}/${distro}/${DATE_STAMP}"
+
+  # Safety guard: never operate on an empty path, filesystem root, or repo root.
+  if [[ -z "${dated_dir}" || "${dated_dir}" == "/" || "${dated_dir}" == "${CTHULHU_ROOT}" ]]; then
+    error "Unsafe snapshot target path: ${dated_dir:-<empty>}"
+    exit 1
+  fi
+
+  if [[ -d "${dated_dir}" ]]; then
+    info "Existing snapshot found; replacing ${dated_dir}"
+    rm -rf "${dated_dir}"
+  fi
+
   mkdir -p "${dated_dir}"
 
   case "${distro}" in
