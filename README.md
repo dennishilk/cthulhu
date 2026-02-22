@@ -2,7 +2,6 @@
 
 > Personal system backups — **archive, not a project**
 
-![Linux](https://img.shields.io/badge/Linux-%F0%9F%90%A7-black?style=for-the-badge)
 ![Backups](https://img.shields.io/badge/Backups-Human%20Readable-blue?style=for-the-badge)
 ![No%20Magic](https://img.shields.io/badge/No%20Magic-No%20Snapshots-red?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Personal%20Archive-purple?style=for-the-badge)
