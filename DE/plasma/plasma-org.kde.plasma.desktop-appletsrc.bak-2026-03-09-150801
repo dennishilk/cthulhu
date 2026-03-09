@@ -53,8 +53,8 @@ plugin=org.kde.plasma.digitalclock
 
 [Containments][3][Applets][19][Configuration]
 PreloadWeight=100
-popupHeight=470
-popupWidth=580
+popupHeight=466
+popupWidth=576
 
 [Containments][3][Applets][19][Configuration][Appearance]
 fontWeight=400
@@ -69,8 +69,8 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][3][Applets][4][Configuration]
 PreloadWeight=100
-popupHeight=628
-popupWidth=797
+popupHeight=596
+popupWidth=765
 
 [Containments][3][Applets][4][Configuration][General]
 favoritesPortedToKAstats=true
