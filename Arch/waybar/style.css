@@ -1,0 +1,36 @@
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
+    border: none;
+    border-radius: 0;
+}
+window#waybar {
+    background-color: #282828;
+    color: #ebdbb2;
+}
+#clock {
+    color: #ebdbb2;
+    font-weight: bold;
+}
+/* Abstände für alle rechten Module */
+#network, #pulseaudio, #cpu, #temperature, #memory {
+    padding: 0 10px;
+    background-color: transparent;
+}
+/* Gruvbox Farb-Palette */
+#network {
+    color: #d3869b; /* Lila für den Download-Speed */
+}
+#pulseaudio {
+    color: #83a598; /* Blau für den Sound */
+}
+#cpu {
+    color: #b8bb26; /* Grün für die CPU-Auslastung */
+}
+#temperature {
+    color: #fe8019; /* Orange für die CPU-Temperatur */
+}
+#memory {
+    color: #fabd2f; /* Gelb für die RAM-Belegung */
+}
+
