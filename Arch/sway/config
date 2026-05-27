@@ -1,0 +1,96 @@
+###############################################################################
+#                (Gruvbox Dark Style)                                         #
+###############################################################################
+
+### Core-Variablen
+set $mod Mod4
+set $term alacritty
+set $menu rofi -show drun -show-icons
+
+### Systemweise Schriftart (Wunderschöne Nerd-Font mit Smiley-Support)
+font pango:JetBrainsMono Nerd Font 11
+
+### Monitor-Konfiguration (FESTE 144HZ AUF DEM DESKTOP - KEIN FLACKERN MEHR)
+# Hauptmonitor (KTC Ultrawide Gaming, links, läuft jetzt stramm auf 144Hz, Desktop-VRR aus)
+output DP-1 resolution 3440x1440@144.000Hz position 0,0 adaptive_sync off
+
+# Zweitmonitor (Acer, rechts daneben, startet exakt nach dem Ultrawide bei 3440!)
+output HDMI-A-1 resolution 1920x1080@60Hz position 3440,0 adaptive_sync off
+
+### Eigene Hintergrundbilder für jeden Monitor einzeln zugewiesen
+output DP-1 bg /home/nebu/bilder/wallpaper/1.png fill
+output HDMI-A-1 bg /home/nebu/bilder/wallpaper/2.png fill
+
+### BOMBENSICHERE WORKSPACE-ZUWEISUNG
+set $ws1 "1"
+set $ws2 "2"
+
+workspace $ws1 output DP-1
+workspace $ws2 output HDMI-A-1
+
+### Tastaturlayout dauerhaft auf DEUTSCH
+input type:keyboard {
+    xkb_layout de
+}
+
+### Keybindings
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+b exec google-chrome-stable
+
+# SHORTCUTS: OBS Studio, Thunar und Mousepad
+bindsym $mod+o exec obs
+bindsym $mod+t exec thunar
+bindsym $mod+m exec mousepad
+
+# Fenster schließen mit WIN + Q
+bindsym $mod+q kill
+
+# System-Steuerung (Sway neu laden oder beenden)
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Sway beenden?' -B 'Ja' 'swaymsg exit'
+
+### Zuweisung für die Nummerntasten
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+
+### SOUND & MEDIENTASTEN FIX (Nutzt Pipewire 'wpctl' und 'playerctl')
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+### XFCE SCREENSHOT FIX (Zündet die Bereichsauswahl auf Knopfdruck)
+bindsym Print exec xfce4-screenshooter -r
+
+### Fenster-Regeln (Zähmt Blizzard & Steam im Tiling-Modus)
+for_window [class="battle.net.exe"] floating enable, move position center
+for_window [class="Steam"] floating enable
+for_window [app_id="steam_app_.*"] fullscreen enable, inhibit_idle focus
+
+# Kalender als kleines, sauberes Floating-Fenster direkt oben unter der Bar platzieren
+for_window [app_id="gsimplecal"] floating enable, border pixel 2, move position center, move up 600px
+
+### Autostart-Dienste & Bar-Zündung mit TTY-Verzögerer
+exec lxpolkit
+exec_always autotiling --limit 2
+
+# Startet deine eigene Waybar-Datei fehlerfrei
+exec_always sleep 1 && killall waybar; waybar -c ~/.config/waybar/config.jsonc
+
+### GRUVBOX DARK OPTIK (Fensterrahmen farblich anpassen)
+# class                 border  backgr. text    indicator child_border
+client.focused          #282828 #a89984 #282828 #a89984   #a89984
+client.focused_inactive #282828 #3c3836 #a89984 #3c3836   #3c3836
+client.unfocused        #282828 #282828 #928374 #282828   #282828
+client.urgent           #cc241d #cc241d #ebdbb2 #cc241d   #cc241d
+
+default_border pixel 3
+gaps inner 8
+gaps outer 4
+
+include /etc/sway/config.d/*
