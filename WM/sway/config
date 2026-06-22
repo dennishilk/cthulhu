@@ -1,0 +1,109 @@
+###############################################################################
+# SWAY CONFIGURATION - Dennis Hilk.
+###############################################################################
+
+### [Variables]
+set $mod Mod4
+set $term alacritty
+set $menu rofi -show drun -show-icons
+
+### [Fonts]
+font pango:JetBrainsMono Nerd Font 11
+
+### [Monitors]
+output DP-1 resolution 3440x1440@144.000Hz position 0,0 adaptive_sync off
+output HDMI-A-1 resolution 1920x1080@60Hz position 3440,0 adaptive_sync off
+
+### [Wallpapers]
+output DP-1 bg /home/nebu/bilder/wallpaper/1.png fill
+output HDMI-A-1 bg /home/nebu/bilder/wallpaper/2.png fill
+
+### [Workspaces]
+set $ws1 "1"
+set $ws2 "2"
+
+workspace $ws1 output DP-1
+workspace $ws2 output HDMI-A-1
+
+### [Keyboard Layout]
+input type:keyboard {
+    xkb_layout de
+}
+
+### [Keybindings - Applications]
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+b exec google-chrome-stable
+bindsym $mod+o exec obs
+bindsym $mod+t exec thunar
+bindsym $mod+m exec mousepad
+bindsym $mod+v exec codium --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations
+bindsym $mod+a exec antigravity-ide --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations /mnt/Homelab/boringwm
+
+### [Keybindings - Session & Window Control]
+bindsym $mod+q kill
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Sway beenden?' -B 'Ja' 'swaymsg exit'
+
+### [Keybindings - Workspace Navigation]
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+
+### [Keybindings - Media Controls]
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+### [Keybindings - Screenshots]
+bindsym Print exec xfce4-screenshooter -r
+
+### [Window Rules]
+for_window [class="battle.net.exe"] floating enable, move position center
+for_window [class="Steam"] floating enable
+for_window [app_id="steam_app_.*"] fullscreen enable, inhibit_idle focus
+for_window [app_id="gsimplecal"] floating enable, border pixel 2, move position center, move up 600px
+
+# QEMU / KVM Rules
+for_window [app_id="qemu"] floating enable, move position center
+for_window [title="qemu"] floating enable, move position center
+for_window [class="qemu"] floating enable, move position center
+for_window [app_id="virt-manager"] floating enable, resize set 1000 700, move position center
+
+# 86Box Emulator Rule
+for_window [app_id="net.86box.86Box"] floating enable, move position center
+
+# Fixes for Video Editing Layouts (Kdenlive & DaVinci Resolve UI Glitches under Wayland)
+for_window [app_id="kdenlive"] floating enable, resize set 1600 900, move position center
+for_window [class="resolve"] floating enable, resize set 1600 900, move position center
+
+# Fix for GTK File Chooser (Chrome download window size)
+for_window [window_role="GtkFileChooserDialog"] floating enable, resize set 800 600
+
+### [Autostart Daemons]
+exec lxpolkit
+exec_always autotiling --limit 2
+exec_always sh -c 'sleep 5 && killall -q waybar; waybar -c ~/.config/waybar/config.jsonc'
+
+# Fix for D-Bus and Wayland portals (Chrome click/download bug)
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+### [Theme & Colors - Gruvbox Dark]
+# class                 border  backgr. text    indicator child_border
+client.focused          #282828 #a89984 #282828 #a89984   #a89984
+client.focused_inactive #282828 #3c3836 #a89984 #3c3836   #3c3836
+client.unfocused        #282828 #282828 #928374 #282828   #282828
+client.urgent           #cc241d #cc241d #ebdbb2 #cc241d   #cc241d
+
+default_border pixel 3
+gaps inner 8
+gaps outer 4
+
+# Include root system overrides
+#include /etc/sway/config.d/*
