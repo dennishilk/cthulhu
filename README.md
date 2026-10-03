@@ -1,12 +1,12 @@
 # 🐙 Cthulhu
-
-![Cthulhu Fastfetch on NixOS](assets/cthulhu-fastfetch-1548-days.webp)
-
 ![Bash](https://img.shields.io/badge/Bash-Strict_Mode-black?style=for-the-badge&logo=gnubash)
 ![Linux](https://img.shields.io/badge/Linux-Multi--Distro-blue?style=for-the-badge&logo=linux)
 ![Snapshots](https://img.shields.io/badge/Snapshots-Deterministic-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Actively_Used-purple?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)
+
+![Cthulhu Fastfetch on NixOS](assets/cthulhu-fastfetch-1548-days.webp)
+
 
 `cthulhu` is a production-oriented, Bash-based framework for archiving and restoring Linux system metadata and user configuration across multiple distributions.
 
