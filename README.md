@@ -1,6 +1,6 @@
 # 🐙 Cthulhu
 
-
+![Cthulhu Fastfetch on NixOS](assets/cthulhu-fastfetch-1548-days.webp)
 
 ![Bash](https://img.shields.io/badge/Bash-Strict_Mode-black?style=for-the-badge&logo=gnubash)
 ![Linux](https://img.shields.io/badge/Linux-Multi--Distro-blue?style=for-the-badge&logo=linux)
