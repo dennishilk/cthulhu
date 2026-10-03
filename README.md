@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/Status-Actively_Used-purple?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)
 
-![Cthulhu Fastfetch on NixOS](assets/nixosFF.webp)
+![Cthulhu Fastfetch on NixOS](assets/nixosFTW.webp)
 
 
 `cthulhu` is a production-oriented, Bash-based framework for archiving and restoring Linux system metadata and user configuration across multiple distributions.
