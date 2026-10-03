@@ -23,28 +23,26 @@
   boot.loader.timeout = 2;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  system.build.label = "Cthulhu – Radeon";
+  # Current NixOS uses system.nixos.label for boot/build labels.
+  # Spaces and the old en-dash label are not valid here.
+  system.nixos.label = "Cthulhu-Radeon";
   systemd.defaultUnit = "graphical.target";
 
   ########################################
-  # Nix & GC
+  # Nix
   ########################################
   nix.settings = {
     auto-optimise-store = true;
     experimental-features = [ "nix-command" ];
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
+  # Intentionally no automatic garbage collection.
+  # Keep rollback generations until we deliberately clean them up.
 
   ########################################
   # Kernel
   ########################################
-  boot.kernelPackages = pkgs.linuxPackages;
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   ########################################
   # ZRAM
@@ -57,31 +55,23 @@
   };
 
   ########################################
-  # Sysctl
-  ########################################
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 80;
-    "vm.vfs_cache_pressure" = 150;
-    "vm.dirty_ratio" = 15;
-    "vm.dirty_background_ratio" = 5;
-  };
-
-  ########################################
   # Virtualisation
   ########################################
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
-  services.spice-vdagentd.enable = true;
   programs.virt-manager.enable = true;
 
   ########################################
-  # User
+  # User / Shell
   ########################################
+  programs.fish.enable = true;
+
   users.users.nebu = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    description = "nebu";
+    shell = pkgs.fish;
     extraGroups = [
       "wheel"
       "video"
@@ -90,24 +80,6 @@
       "libvirtd"
       "kvm"
     ];
-  };
-
-  ########################################
-  # ZSH + Powerlevel10k
-  ########################################
-  programs.zsh = {
-    enable = true;
-
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-
-    promptInit = ''
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-    '';
-
-    shellAliases = {
-      ll = "ls -lah";
-    };
   };
 
   ########################################
@@ -131,21 +103,35 @@
   ########################################
   time.timeZone = "Europe/Berlin";
   i18n.defaultLocale = "de_DE.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
+  };
+
   console.keyMap = "de";
 
   ########################################
-  # Display, KDE Plasma, river
+  # Display / KDE Plasma
   ########################################
   services.xserver.enable = true;
-  services.xserver.xkb.layout = "de";
+  services.xserver.xkb = {
+    layout = "de";
+    variant = "";
+  };
 
   services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.defaultSession = "plasma";
-
   services.desktopManager.plasma6.enable = true;
 
-  programs.river-classic.enable = true;
+  # Plasma 6 itself uses Wayland by default. Keep SDDM on its stable default
+  # instead of enabling SDDM's still-experimental Wayland compositor.
 
   ########################################
   # AMD / Mesa Graphics
@@ -177,20 +163,19 @@
   services.dbus.enable = true;
   services.udisks2.enable = true;
   services.gvfs.enable = true;
-  services.tumbler.enable = true;
+
+  # Keep printing support from the fresh installer configuration.
+  services.printing.enable = true;
 
   ########################################
-  # Flatpak & Portals
+  # Portals
   ########################################
-  services.flatpak.enable = true;
-
   xdg.portal = {
     enable = true;
+    # Plasma already supplies xdg-desktop-portal-kde itself.
     extraPortals = with pkgs; [
-      kdePackages.xdg-desktop-portal-kde
       xdg-desktop-portal-gtk
     ];
-    config.common.default = "*";
   };
 
   ########################################
@@ -209,10 +194,9 @@
   ########################################
   environment.systemPackages = with pkgs; [
     # Shell / Terminal
-    zsh-powerlevel10k
-    alacritty
+    kitty
 
-    # System tools
+    # System / CLI tools
     curl
     git
     unzip
@@ -220,13 +204,14 @@
     tree
     fastfetch
     btop
+    wl-clipboard
     gparted
     gnome-disk-utility
 
-    # Desktop / Files
-    xfce.mousepad
+    # Desktop / Editor
+    kdePackages.kate
 
-    # KDE / Video / Media
+    # Video / Media
     kdePackages.kdenlive
     vlc
     ffmpeg-full
@@ -234,70 +219,54 @@
     ffmpegthumbnailer
     yt-dlp
 
-    # Browser / Internet
-    firefox
+    # Browser
     google-chrome
-
-    # Audio control
-    pamixer
-    pavucontrol
-
-    # Wayland / river
-    waybar
-    rofi
-    wl-clipboard
-    grim
-    slurp
 
     # Graphics / Capture
     obs-studio
     gimp
 
     # Gaming
-    steam
-    wowup-cf
-    gamemode
-    mangohud
+    lutris
 
-    # AMD / Vulkan / VAAPI tools
+    # AMD / Vulkan / VAAPI diagnostics
     libva-utils
     vulkan-tools
   ];
 
   ########################################
-  # Steam
+  # Firefox / Steam
   ########################################
+  programs.firefox.enable = true;
   programs.steam.enable = true;
 
   ########################################
   # Game / Media Drives
-  # Disabled for now.
-  # Format and label the drives with GParted first:
-  #   Games.Vol1
-  #   Games.Vol2
-  #   homelab
+  #
+  # Keep disabled until the additional drives are physically installed.
+  # After the next boot, verify labels and filesystems before uncommenting.
   ########################################
 
-  # fileSystems."/mnt/Games.Vol1" = {
-  #   device = "/dev/disk/by-label/Games.Vol1";
-  #   fsType = "ext4";
-  #   options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
-  # };
+fileSystems."/mnt/Games.Vol1" = {
+  device = "/dev/disk/by-label/Games.Vol1";
+  fsType = "ext4";
+  options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
+};
 
-  # fileSystems."/mnt/Games.Vol2" = {
-  #   device = "/dev/disk/by-label/Games.Vol2";
-  #   fsType = "ext4";
-  #   options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
-  # };
+fileSystems."/mnt/Games.Vol2" = {
+  device = "/dev/disk/by-label/Games.Vol2";
+  fsType = "ext4";
+  options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
+};
 
-  # fileSystems."/mnt/Homelab" = {
-  #   device = "/dev/disk/by-label/homelab";
-  #   fsType = "ext4";
-  #   options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
-  # };
+fileSystems."/mnt/Homelab" = {
+  device = "/dev/disk/by-label/Homelab";
+  fsType = "ext4";
+  options = [ "noatime" "nofail" "x-systemd.device-timeout=1s" ];
+};
 
   ########################################
   # State Version
   ########################################
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 }
