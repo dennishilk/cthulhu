@@ -41,9 +41,27 @@
     },
 
     {
-      "key": "│ 󰉉 disk    │",
+      "key": "│ 󰉉 root    │",
       "type": "disk",
       "folders": "/"
+    },
+
+    {
+      "key": "│ ├ game1   │",
+      "type": "disk",
+      "folders": "/mnt/Games.Vol1"
+    },
+
+    {
+      "key": "│ ├ game2   │",
+      "type": "disk",
+      "folders": "/mnt/Games.Vol2"
+    },
+
+    {
+      "key": "│ └ lab     │",
+      "type": "disk",
+      "folders": "/mnt/Homelab"
     },
 
     { "key": "│  memory  │", "type": "memory" },
