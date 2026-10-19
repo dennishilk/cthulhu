@@ -1,0 +1,21 @@
+name: Kanagawa Dragon configuration checks
+on:
+  push:
+    branches: [main]
+    paths: ['WM/xmonad/nixos-kanagawa-dragon/**', '.github/workflows/kanagawa-dragon.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NIX_PATH: nixpkgs=https://github.com/NixOS/nixpkgs/archive/8ce73368d1efd4d657e9064d29b144a52046b4e8.tar.gz
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702
+      - name: Evaluate Plasma preparation, migration, Minimal and optional apps
+        run: nix-instantiate --eval --strict --json WM/xmonad/nixos-kanagawa-dragon/tests/eval.nix
+      - name: Compile XMonad and Xmobar, check shell helpers and installer safety
+        run: nix-shell WM/xmonad/nixos-kanagawa-dragon/tests/shell.nix --run 'bash WM/xmonad/nixos-kanagawa-dragon/tests/check.sh'

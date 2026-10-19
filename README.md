@@ -20,6 +20,19 @@ The implementation is pure Bash with standard Linux tooling, modularized for mai
 
 ---
 
+## Kanagawa Dragon desktop — NixOS + XMonad (October 2026)
+
+**[Complete reproducible desktop setup](WM/xmonad/nixos-kanagawa-dragon/README.md)** ·
+[English installation](WM/xmonad/nixos-kanagawa-dragon/INSTALL.en.md) ·
+[Deutsche Anleitung](WM/xmonad/nixos-kanagawa-dragon/INSTALL.de.md).
+
+Two routes (Plasma first or Minimal), the complete XMonad configuration, safe NixOS modules,
+Fish, Kitty, Xmobar, GTK, Rofi, Dunst, audio and Fastfetch. This is an independent addition;
+the backup/restore framework and historical snapshots below retain their existing roles.
+External themes and artwork have separate rights; see the setup's attribution notes.
+
+---
+
 ## Philosophy
 
 - **Safe operations first**: restore paths are never overwritten silently; user confirmation is required.
