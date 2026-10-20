@@ -1,63 +1,87 @@
-# Cthulhu: Arch Minimal + dwm (Stage 1)
+# Cthulhu — Arch Linux + dwm 6.8
 
-Kleines, nachvollziehbares Bootstrap für den ersten dwm-Login auf Cthulhu.
-**Keine automatische Partitionierung, Formatierung oder Neuinstallation.**
+A minimal, two-monitor daily-driver desktop built from the official **stable dwm 6.8** tag, with small local source adjustments. The public repository is the source of truth for these desktop files.
 
-## Archinstall
-- Profil **Minimal**; normalen Benutzer **mit sudo** anlegen; Netzwerk aktivieren.
-- Laufwerke anhand der *Seriennummer*, nicht anhand von /dev/nvme0n1, identifizieren:
-  - **System / Installationsziel:** Crucial P310 **25024D54E112** (Endung **112**, „Feuerwehr“).
-  - **NICHT überschreiben:** Homelab P310 **25024D548A53**, Samsung Games.Vol1 / Games.Vol2.
-- Vorher wichtige Daten sichern. Bei Unsicherheit die drei Datenlaufwerke ausgeschaltet abklemmen.
+## Hard boundary: Arch base belongs to you
 
-## Nach dem ersten Arch-Login
+You install Arch, `linux`, firmware, GRUB, Btrfs, Snapper, snap-pac, grub-btrfs, `multilib`, zram and game-disk mounts yourself. The bootstrap **does not** partition, format, mount, or edit `/etc/fstab`, `/etc/pacman.conf`, GRUB, EFI, Snapper or your SSH keys. Leave your existing game SSDs untouched. Confirm the installation NVMe by its serial number before installing Arch.
 
-```bash
-git clone --depth 1 https://github.com/dennishilk/cthulhu.git
+The bootstrap requires a working Arch installation, non-root user `nebu` with sudo, online pacman mirrors, the enabled and synced `multilib` repository, git and internet access. It performs a full normal pacman update; finish the base setup first. It uses official Arch repositories and installs `yay`/Google Chrome from AUR (AUR build scripts are third-party code; review them if you want). If anything fails, it stops rather than silently continuing.
+
+## Start, from the installed Arch TTY
+
+Run these *one at a time*, checking each result:
+
+```sh
+git clone https://github.com/dennishilk/cthulhu.git
+```
+
+```sh
 cd cthulhu/Arch/dwm
+```
+
+```sh
 bash ./install.sh
 ```
 
-Das Skript **nicht mit sudo** starten! Es verwendet sudo ausschließlich für offizielle Pakete, kompiliert yay als normaler Benutzer und installiert Chrome anschließend über yay.
-Anschließend auf einem TTY:
+**Do not use sudo to launch install.sh.** Normal sudo/pacman/AUR prompts are expected. When finished, log out and log back in as `nebu` on **local TTY1**. Fish auto-runs `startx`, which starts dwm. SSH sessions never autostart dwm. No graphical login manager. A re-run updates the desktop files managed by this script; it does not touch unrelated configs. It does manage `~/.xinitrc` and your login shell.
 
-```bash
-startx
-```
+## Sources and configuration locations
 
-## Was wird installiert?
-- Offiziell: Xorg, Xinit, C-Build-Werkzeuge + X11-Bibliotheken, Mesa, RADV, Kitty, Rofi, JetBrainsMono Nerd Font.
-- Eigener dwm-Build **Tag 6.8** von https://git.suckless.org/dwm, ohne Patches.
-- yay aus AUR (PKGBUILD wird gezeigt, mit Freigabe); Chrome aus AUR.
-- **Nicht in Stage 1:** Steam/Multilib, PipeWire, OBS, DaVinci, Wallpaper, Picom, Fastfetch, 144/60-Hz-Monitorkonfiguration. Nach dem ersten erfolgreichen Login einzeln ergänzen.
+- `~/.config/dwm/src/` — unmodified upstream git HEAD pinned to tag 6.8 with local changes in working tree only; `patch_dwm.py` is idempotent.
+- `~/.config/dwm/config.h`, `patch_dwm.py`, `start.sh`, `rebuild.sh` — repo-managed dwm files.
+- `~/.local/bin/dwm` — locally compiled binary, never `/usr/local/bin/dwm`.
+- `~/.config/dwm/wallpapers/{1,2}.png` — from `Arch/wallpapers/`, `feh --bg-fill`.
+- `~/.config/kitty/kitty.conf` — JetBrains Mono Nerd Font 12pt, `background_opacity 0.85`.
+- `~/.config/picom/picom.conf` — glx, subtle shadows, no blur, no fades, no VSync, fullscreen unredirect when possible.
+- `~/.config/fastfetch/{config.jsonc,1.png,cthulhu-born}` — existing custom theme, `I use Arch btw`; on each interactive kitty fish start.
+- `~/.config/fish/conf.d/cthulhu-*.fish` — TTY1 auto-start and kitty-only Fastfetch.
+- `~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml` — Clipboard 'save on quit' off (no panel is launched).
 
-## Wo liegen die dwm-Dateien?
-- `~/.config/dwm/config.h` (anpassen)
-- `~/.config/dwm/src/` (eigene lokale Quellen)
-- `~/.config/dwm/bin/dwm` (ausführbare Datei)
-- `~/.config/dwm/start.sh`, `rebuild.sh`, `status.sh`
-- **Nur** `~/.xinitrc` außerhalb dieses Verzeichnisses, weil Xinit sie erwartet. Eine bestehende wird **niemals überschrieben**.
-- Nichts wird mit `sudo make install` nach /usr/local kopiert, kein Display Manager, keine TTY-Autostart-Hacks.
+## Key bindings
 
-## Shortcuts
-- **Super+Enter** Kitty
-- **Super+B** Chrome (zweimal Super+Enter wäre unmöglich)
-- **Super+D** Rofi
-- **Super+Q** Fenster schließen
-- **Super+Shift+Q** dwm beenden
-- **Super+1–9** Tags, **Super+J/K** Fensterfokus
-- **Super+Maus links/rechts** Fenster bewegen / Größe ändern
+| Binding | Action |
+|---|---|
+| `Super+Enter` | kitty (fish + Fastfetch) |
+| `Super+B` | Google Chrome |
+| `Super+D` | original `dmenu_run` at the top of current monitor |
+| `Super+T` | Thunar |
+| `Super+Q` | Close focused window |
+| `Super+F` | Real EWMH fullscreen toggle |
+| `Super+left mouse` | Move a window; previously tiled windows return to tiling on other monitor |
+| `Super+right mouse` | Resize in floating mode |
+| `Print` | Flameshot interactive screenshot |
+| Hardware volume keys | `wpctl` +5%, -5%, mute |
 
-## Änderungen an dwm
-```bash
-nano ~/.config/dwm/config.h
+No tag switching, keyboard focus cycling, minimize shortcut, dwm quit shortcut, status bar, display manager, automatic screen lock, compositor blur or fading. Default layout: one tag per monitor; master left, stack right; 50/50 when two tiled clients; 12px outer and 8px inner gaps; border 0. New windows take focus, then mouse-over changes focus. Dialogs float as upstream dwm normally does.
+
+To rebuild after changing config:
+
+```sh
 ~/.config/dwm/rebuild.sh
 ```
-Danach dwm beenden und mit `startx` neu starten.
 
-## Grenzen
-- Dies ist **nur ein Einstieg**, keine Garantie für einen fertigen Gaming-Desktop.
-- Die richtigen X11-Ausgangsnamen und **144 Hz** prüfen wir nach der Installation mit xrandr.
-- Ein Distro-Wechsel ist **kein** garantierter Fix für die RX-9060-XT-Hardlocks.
-- Der Installer bewahrt existierende Konfigurationsdateien unter ~/.config/dwm; seine Wiederholung ersetzt sie nicht.
-- Shell-Syntax lokal geprüft; realer Arch-Build und die Display-Konfiguration müssen auf Cthulhu getestet werden.
+Restart your Xorg session to load the new binary. There is deliberately no dwm quit shortcut; use a deliberate command/process exit instead.
+
+## Monitors (verify after native Xorg login)
+
+- `DP-2` left, 3440×1440 **target 144 Hz**, image `1.png`.
+- `HDMI-A-1` right, 1920×1080 **target 60 Hz**, image `2.png`.
+- Right monitor vertically centered → X position 3440, Y offset 180.
+
+DRM status was verified while the old desktop ran Wayland: `DP-2` and `HDMI-A-1` connected, `DP-1` disconnected. The prior Xwayland `xrandr` report only listed about 60 Hz; **do not interpret that as native Xorg capability**. The startup script applies the expected layout only if it detects a 144 Hz mode on DP-2; otherwise it leaves the current mode and warns. Verify native modes and `feh` image ordering on the installed system. Picom behavior at mixed refresh rates and AMD/RDNA4 Vulkan stability also require real hardware tests.
+
+## Other desktop components
+
+- Xorg, Xinit, dmenu, Thunar + Tumbler + GVfs + udisks2 + Polkit, Mousepad, Xarchiver, VLC, feh, Flameshot, numlockx, btop.
+- xfce4-clipman standalone retains copied text after the source window closes, with disk persistence disabled; it does not launch an XFCE panel.
+- PipeWire, WirePlumber and `wpctl` volume keys. No pavucontrol.
+- NetworkManager, UFW incoming deny / outgoing allow, weekly SSD TRIM, weekly pacman cache cleanup, automatic time sync. Existing systemd-networkd links are not changed and UFW is not activated in an SSH session.
+- Mesa/RADV (64/32-bit), Vulkan loaders (64/32-bit), vulkan-tools. Kernel and firmware stay part of the base Arch install.
+- No Bluetooth, CUPS, dunst, extra PDF viewer, extra image viewer, standalone GUI search or desktop locker.
+
+Steam, Lutris and OBS intentionally come **after** native Xorg, audio and 64/32-bit Vulkan checks. This Linux reinstallation is not a proven fix for earlier RX 9060 XT hardlocks.
+
+## Testing limitations
+
+Scripts and configuration can be syntax-checked without Arch. Full pacman/AUR installation, actual upstream dwm compilation and behavior, Xorg and 144/60 Hz layout, clipboard lifetime, terminal logo rendering and gaming require testing on Cthulhu after install. Do not assume these are verified merely because the files are committed.

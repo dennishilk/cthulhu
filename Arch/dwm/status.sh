@@ -1,5 +1,3 @@
 #!/bin/sh
-while :; do
-  xsetroot -name " $(date '+%a %d.%m. %H:%M') "
-  sleep 15
-done
+# Intentionally unused: no dwm status bar in this configuration.
+exit 0
