@@ -42,7 +42,9 @@ fi
 
 # Clipman standalone: clipboard retained after source closes; no history save on quit.
 xfce4-clipman >/dev/null 2>&1 &
-# No dunst, bar, panels, tray, or visible launch applications.
+# Notification daemon is invisible unless an app sends a notification.
+dunst >/dev/null 2>&1 &
+# No bar, panels, tray, or visible launch applications.
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null 2>&1 &
 picom --config "$HOME/.config/picom/picom.conf" >/dev/null 2>&1 &
 exec "$DWM_BIN"

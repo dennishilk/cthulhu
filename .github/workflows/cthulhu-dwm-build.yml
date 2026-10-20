@@ -20,7 +20,7 @@ jobs:
         run: |
           bash -n Arch/dwm/install.sh Arch/dwm/rebuild.sh
           sh -n Arch/dwm/start.sh
-          python -m py_compile Arch/dwm/patch_dwm.py
+          python -m py_compile Arch/dwm/patch_dwm.py Arch/dwm/pacman-style.py
       - name: Build official dwm 6.8 as an unprivileged user
         run: |
           useradd -m -s /bin/bash builder

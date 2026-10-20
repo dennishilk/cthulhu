@@ -4,7 +4,7 @@ A minimal, two-monitor daily-driver desktop built from the official **stable dwm
 
 ## Hard boundary: Arch base belongs to you
 
-You install Arch, `linux`, firmware, GRUB, Btrfs, Snapper, snap-pac, grub-btrfs, `multilib`, zram and game-disk mounts yourself. The bootstrap **does not** partition, format, mount, or edit `/etc/fstab`, `/etc/pacman.conf`, GRUB, EFI, Snapper or your SSH keys. Leave your existing game SSDs untouched. Confirm the installation NVMe by its serial number before installing Arch.
+You install Arch, `linux`, firmware, GRUB, Btrfs, Snapper, snap-pac, grub-btrfs, `multilib`, zram and game-disk mounts yourself. The bootstrap **does not** partition, format, mount, or edit `/etc/fstab`, GRUB, EFI, Snapper or your SSH keys. The **only** pacman.conf changes made are `Color` and `ILoveCandy` within `[options]` (after inspecting the section and backing up the original); `[multilib]` remains as you configured it. Leave your existing game SSDs untouched. Confirm the installation NVMe by its serial number before installing Arch.
 
 The bootstrap requires a working Arch installation, non-root user `nebu` with sudo, online pacman mirrors, the enabled and synced `multilib` repository, git and internet access. It performs a full normal pacman update; finish the base setup first. It uses official Arch repositories and installs `yay`/Google Chrome from AUR (AUR build scripts are third-party code; review them if you want). If anything fails, it stops rather than silently continuing.
 
@@ -34,6 +34,8 @@ bash ./install.sh
 - `~/.config/dwm/wallpapers/{1,2}.png` — from `Arch/wallpapers/`, `feh --bg-fill`.
 - `~/.config/kitty/kitty.conf` — JetBrains Mono Nerd Font 12pt, `background_opacity 0.85`.
 - `~/.config/picom/picom.conf` — glx, subtle shadows, no blur, no fades, no VSync, fullscreen unredirect when possible.
+- `~/.config/flameshot/flameshot.ini` — created only if absent; default enables the documented legacy X11 screenshot method for dwm. Existing user configuration is preserved.
+- `/etc/pacman.conf` — safely enables `Color` and `ILoveCandy` only in `[options]`, keeping other sections untouched; creates a timestamped backup if changed.
 - `~/.config/fastfetch/{config.jsonc,1.png,cthulhu-born}` — existing custom theme, `I use Arch btw`; on each interactive kitty fish start.
 - `~/.config/fish/conf.d/cthulhu-*.fish` — TTY1 auto-start and kitty-only Fastfetch.
 - `~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml` — Clipboard 'save on quit' off (no panel is launched).
@@ -73,12 +75,12 @@ DRM status was verified while the old desktop ran Wayland: `DP-2` and `HDMI-A-1`
 
 ## Other desktop components
 
-- Xorg, Xinit, dmenu, Thunar + Tumbler + GVfs + udisks2 + Polkit, Mousepad, Xarchiver, VLC, feh, Flameshot, numlockx, btop.
+- Xorg, Xinit, dmenu, Thunar + Tumbler + GVfs + udisks2 + Polkit, Mousepad, **nano**, Xarchiver, VLC, feh, Flameshot, numlockx, btop; **dunst** runs silently for system notifications.
 - xfce4-clipman standalone retains copied text after the source window closes, with disk persistence disabled; it does not launch an XFCE panel.
 - PipeWire, WirePlumber and `wpctl` volume keys. No pavucontrol.
 - NetworkManager, UFW incoming deny / outgoing allow, weekly SSD TRIM, weekly pacman cache cleanup, automatic time sync. Existing systemd-networkd links are not changed and UFW is not activated in an SSH session.
 - Mesa/RADV (64/32-bit), Vulkan loaders (64/32-bit), vulkan-tools. Kernel and firmware stay part of the base Arch install.
-- No Bluetooth, CUPS, dunst, extra PDF viewer, extra image viewer, standalone GUI search or desktop locker.
+- No Bluetooth, CUPS, extra PDF viewer, extra image viewer, standalone GUI search or desktop locker.
 
 Steam, Lutris and OBS intentionally come **after** native Xorg, audio and 64/32-bit Vulkan checks. This Linux reinstallation is not a proven fix for earlier RX 9060 XT hardlocks.
 
