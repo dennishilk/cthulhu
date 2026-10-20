@@ -8,8 +8,11 @@ import re
 import shutil
 import stat
 import tempfile
+import sys
 
-config = Path("/etc/pacman.conf")
+if len(sys.argv) > 2:
+    raise SystemExit("Usage: pacman-style.py [path-to-pacman.conf]")
+config = Path(sys.argv[1]) if len(sys.argv) == 2 else Path("/etc/pacman.conf")
 if config.is_symlink() or not config.is_file():
     raise SystemExit("Refusing to change a missing or symlinked pacman.conf.")
 
@@ -18,7 +21,7 @@ lines = original.splitlines(keepends=True)
 sections = [
     (i, m.group(1).strip().lower())
     for i, line in enumerate(lines)
-    if (m := re.match(r"^\\s*\\[([^]]+)\\]\\s*(?:#.*)?$", line))
+    if (m := re.match(r"^\s*\[([^]]+)\]\s*(?:#.*)?$", line))
 ]
 options = [index for index, name in sections if name == "options"]
 if len(options) != 1:
@@ -26,11 +29,11 @@ if len(options) != 1:
 start = options[0] + 1
 end = next((i for i, _ in sections if i >= start), len(lines))
 section = lines[start:end]
-eol = "\\r\\n" if "\\r\\n" in original else "\\n"
+eol = "\r\n" if "\r\n" in original else "\n"
 
 def ensure_flag(flag):
-    active = re.compile(r"^\\s*" + re.escape(flag) + r"\\s*(?:#.*)?$")
-    commented = re.compile(r"^\\s*#\\s*" + re.escape(flag) + r"\\s*(?:#.*)?$")
+    active = re.compile(r"^\s*" + re.escape(flag) + r"\s*(?:#.*)?$")
+    commented = re.compile(r"^\s*#\s*" + re.escape(flag) + r"\s*(?:#.*)?$")
     if any(active.match(line.strip()) for line in section):
         return
     for i, line in enumerate(section):
