@@ -21,6 +21,17 @@ jobs:
           bash -n Arch/dwm/install.sh Arch/dwm/rebuild.sh
           sh -n Arch/dwm/start.sh
           python -m py_compile Arch/dwm/patch_dwm.py Arch/dwm/pacman-style.py
+      - name: Confirm cosmetic pacman edit is scoped and idempotent
+        run: |
+          printf '[options]\n#Color\nParallelDownloads = 5\n\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n' > /tmp/cthulhu-pacman.conf
+          python Arch/dwm/pacman-style.py /tmp/cthulhu-pacman.conf
+          grep -qx Color /tmp/cthulhu-pacman.conf
+          grep -qx ILoveCandy /tmp/cthulhu-pacman.conf
+          grep -Fqx '[multilib]' /tmp/cthulhu-pacman.conf
+          grep -Fqx 'ParallelDownloads = 5' /tmp/cthulhu-pacman.conf
+          cp /tmp/cthulhu-pacman.conf /tmp/cthulhu-pacman-expected.conf
+          python Arch/dwm/pacman-style.py /tmp/cthulhu-pacman.conf
+          cmp /tmp/cthulhu-pacman.conf /tmp/cthulhu-pacman-expected.conf
       - name: Build official dwm 6.8 as an unprivileged user
         run: |
           useradd -m -s /bin/bash builder
