@@ -21,13 +21,15 @@ jobs:
           bash -n Arch/dwm/install.sh Arch/dwm/rebuild.sh
           sh -n Arch/dwm/start.sh
           python -m py_compile Arch/dwm/patch_dwm.py
-      - name: Build official dwm 6.8 with Cthulhu customization
+      - name: Build official dwm 6.8 as an unprivileged user
         run: |
-          mkdir -p "$HOME/.config/dwm" "$HOME/.local/bin"
-          git clone --depth 1 --branch 6.8 https://git.suckless.org/dwm "$HOME/.config/dwm/src"
-          cp Arch/dwm/config.h Arch/dwm/patch_dwm.py Arch/dwm/rebuild.sh "$HOME/.config/dwm/"
-          chmod +x "$HOME/.config/dwm/rebuild.sh"
-          "$HOME/.config/dwm/rebuild.sh"
-          test -x "$HOME/.local/bin/dwm"
+          useradd -m -s /bin/bash builder
+          mkdir -p /home/builder/.config/dwm /home/builder/.local/bin
+          git clone --depth 1 --branch 6.8 https://git.suckless.org/dwm /home/builder/.config/dwm/src
+          cp Arch/dwm/config.h Arch/dwm/patch_dwm.py Arch/dwm/rebuild.sh /home/builder/.config/dwm/
+          chmod +x /home/builder/.config/dwm/rebuild.sh
+          chown -R builder:builder /home/builder
+          su - builder -c '/home/builder/.config/dwm/rebuild.sh'
+          test -x /home/builder/.local/bin/dwm
       - name: Verify re-run is idempotent
-        run: "$HOME/.config/dwm/rebuild.sh"
+        run: su - builder -c '/home/builder/.config/dwm/rebuild.sh'
