@@ -18,7 +18,7 @@ SRC_DIR="$DWM_DIR/src"
 export PATH="$HOME/.local/bin:$PATH"
 for f in config.h start.sh rebuild.sh patch_dwm.py picom.conf kitty.conf \
          cthulhu-fastfetch.fish cthulhu-dwm.fish gtk3.ini xfce4-panel.xml \
-         pacman-style.py flameshot.ini; do
+         pacman-style.py; do
   [[ -f "$DWM_REPO/$f" ]] || fail "Missing GitHub source: Arch/dwm/$f"
 done
 for f in "$REPO_DIR/Arch/fastfetch/config.jsonc" "$REPO_DIR/Arch/fastfetch/1.png" \
@@ -37,7 +37,7 @@ sudo pacman -Syu --needed \
   xorg-server xorg-xinit xorg-xrandr xorg-xset xorg-setxkbmap xorg-xauth \
   dmenu kitty fish fastfetch feh picom thunar tumbler gvfs udisks2 polkit-gnome \
   xfce4-clipman-plugin xfconf xarchiver unzip 7zip unrar \
-  mousepad nano vlc flameshot dunst numlockx btop ttf-jetbrains-mono-nerd \
+  mousepad nano vlc maim numlockx btop ttf-jetbrains-mono-nerd \
   networkmanager pipewire pipewire-alsa pipewire-pulse wireplumber alsa-utils \
   mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon \
   vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools libva-mesa-driver \
@@ -66,13 +66,6 @@ for file in start.sh rebuild.sh; do
 done
 install -Dm644 "$DWM_REPO/picom.conf" "$HOME/.config/picom/picom.conf"
 install -Dm644 "$DWM_REPO/kitty.conf" "$HOME/.config/kitty/kitty.conf"
-# For minimal X11 WMs, Flameshot >=14 needs its documented legacy X11 screenshot method.
-# Leave existing user-customized Flameshot settings intact.
-if [[ ! -e "$HOME/.config/flameshot/flameshot.ini" ]]; then
-  install -Dm644 "$DWM_REPO/flameshot.ini" "$HOME/.config/flameshot/flameshot.ini"
-else
-  info 'Existing Flameshot settings kept (enable legacy X11 screenshot in Flameshot General settings if needed).'
-fi
 install -Dm644 "$DWM_REPO/gtk3.ini" "$HOME/.config/gtk-3.0/settings.ini"
 install -Dm644 "$DWM_REPO/gtk3.ini" "$HOME/.config/gtk-4.0/settings.ini"
 install -Dm644 "$DWM_REPO/cthulhu-fastfetch.fish" "$HOME/.config/fish/conf.d/cthulhu-fastfetch.fish"
@@ -149,6 +142,6 @@ if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$fishbin" ]]; then
 fi
 printf '\nDONE: Re-login locally on TTY1 -> Xorg + dwm (automatic).\n'
 printf 'Super+Enter kitty | Super+B Chrome | Super+D dmenu | Super+T Thunar\n'
-printf 'Super+Q close | Super+F fullscreen | Super+mouse drag/resize | Print Flameshot\n'
+printf 'Super+Q close | Super+F fullscreen | Super+mouse drag/resize | Print maim -> ~/Screenshots\n'
 printf 'No bar, no virtual workspace keys, no power/hibernation/partition changes.\n'
 printf 'Verify DP-2 144 Hz natively after login; do not rely on Xwayland mode list.\n'
