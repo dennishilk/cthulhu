@@ -4,12 +4,12 @@
   "logo": {
     "type": "kitty-direct",
     "source": "/home/nebu/.config/fastfetch/1.png",
-    "width": 30,
-    "height": 15,
+    "width": 24,
+    "height": 19,
     "padding": {
       "top": 1,
       "left": 2,
-      "right": 4
+      "right": 1
     }
   },
 
