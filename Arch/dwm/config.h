@@ -9,7 +9,6 @@ static const unsigned int snap = 32;
 static const int showbar = 0;
 static const int topbar = 1;
 static const char *fonts[] = { "JetBrainsMono Nerd Font:size=12" };
-static const char dmenufont[] = "JetBrainsMono Nerd Font:size=12";
 static const char col_bg[] = "#1e1e1e";
 static const char col_fg[] = "#eeeeee";
 static const char *colors[][3] = {
@@ -31,9 +30,9 @@ static const Layout layouts[] = {
 };
 
 #define MODKEY Mod4Mask
-/* dmenumon is filled in by dwm spawn() using the active monitor. */
+/* Keep these upstream names: dwm spawn() references dmenucmd and dmenumon. */
 static char dmenumon[2] = "0";
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
+static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
 static const char *termcmd[] = { "kitty", NULL };
 static const char *browsercmd[] = { "google-chrome-stable", NULL };
 static const char *filecmd[] = { "thunar", NULL };
