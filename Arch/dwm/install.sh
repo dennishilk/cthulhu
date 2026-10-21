@@ -35,7 +35,7 @@ sudo -v
 sudo pacman -Syu --needed \
   git base-devel pkgconf python libx11 libxft libxinerama \
   xorg-server xorg-xinit xorg-xrandr xorg-xset xorg-setxkbmap xorg-xauth \
-  dmenu kitty fish fastfetch feh picom thunar tumbler gvfs udisks2 polkit-gnome \
+  rofi kitty fish fastfetch feh picom thunar tumbler gvfs udisks2 polkit-gnome \
   xfce4-clipman-plugin xfconf xarchiver unzip 7zip unrar \
   mousepad nano vlc maim numlockx btop ttf-jetbrains-mono-nerd \
   networkmanager pipewire pipewire-alsa pipewire-pulse wireplumber alsa-utils \
@@ -141,7 +141,7 @@ if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$fishbin" ]]; then
   sudo usermod --shell "$fishbin" "$USER"
 fi
 printf '\nDONE: Re-login locally on TTY1 -> Xorg + dwm (automatic).\n'
-printf 'Super+Enter kitty | Super+B Chrome | Super+D dmenu | Super+T Thunar\n'
+printf 'Super+Enter kitty | Super+B Chrome | Super+D Rofi | Super+T Thunar\n'
 printf 'Super+Q close | Super+F fullscreen | Super+mouse drag/resize | Print maim -> ~/Screenshots\n'
 printf 'No bar, no virtual workspace keys, no power/hibernation/partition changes.\n'
 printf 'Verify DP-2 144 Hz natively after login; do not rely on Xwayland mode list.\n'
