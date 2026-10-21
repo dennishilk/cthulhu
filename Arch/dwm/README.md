@@ -46,7 +46,7 @@ bash ./install.sh
 |---|---|
 | `Super+Enter` | kitty (fish + Fastfetch) |
 | `Super+B` | Google Chrome |
-| `Super+D` | original `dmenu_run` at the top of current monitor |
+| `Super+D` | default Rofi application launcher (`drun`), centered; no custom theme |
 | `Super+T` | Thunar |
 | `Super+Q` | Close focused window |
 | `Super+F` | Real EWMH fullscreen toggle |
@@ -75,7 +75,7 @@ On Arch/Xorg, `DP-2` offers 3440×1440 at **60, 100, 120 and 144 Hz**; 144 Hz wa
 
 ## Other desktop components
 
-- Xorg, Xinit, dmenu, Thunar + Tumbler + GVfs + udisks2 + Polkit, Mousepad, **nano**, Xarchiver, VLC, feh, **maim**, numlockx and btop. No Flameshot or dunst.
+- Xorg, Xinit, Rofi (stock appearance), Thunar + Tumbler + GVfs + udisks2 + Polkit, Mousepad, **nano**, Xarchiver, VLC, feh, **maim**, numlockx and btop. No Flameshot or dunst.
 - xfce4-clipman standalone retains copied text after the source window closes, with disk persistence disabled; it does not launch an XFCE panel.
 - PipeWire, WirePlumber and `wpctl` volume keys. No pavucontrol.
 - NetworkManager, UFW incoming deny / outgoing allow, weekly SSD TRIM, weekly pacman cache cleanup, automatic time sync. Existing systemd-networkd links are not changed and UFW is not activated in an SSH session.
