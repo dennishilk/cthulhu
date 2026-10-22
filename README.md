@@ -20,6 +20,14 @@ The implementation is pure Bash with standard Linux tooling, modularized for mai
 
 ---
 
+## GPU Blackbox — AMDGPU crash flight recorder (October 2026)
+
+**[Source, installation and real crash case study](tools/gpu-blackbox/README.md)** · [Bash script](tools/gpu-blackbox/cthulhu-gpu-blackbox.sh)
+
+A standalone systemd + udev AMDGPU diagnostic logger that records kernel events, GPU telemetry and available Linux device coredumps to a separately mounted disk. Tested on Cthulhu with an RX 9060 XT: during a S.T.A.L.K.E.R. 2 freeze the original recorder captured a 423,438-byte AMDGPU coredump automatically. The public v1.1 adds a configurable storage mount, a documented rollback and automated syntax/smoke checks. It is a diagnostic tool, **not a GPU fix**.
+
+---
+
 ## Kanagawa Dragon desktop — NixOS + XMonad (October 2026)
 
 **[Complete reproducible desktop setup](WM/xmonad/nixos-kanagawa-dragon/README.md)** ·
