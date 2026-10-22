@@ -1,0 +1,34 @@
+name: GPU Blackbox checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/gpu-blackbox/**"
+      - ".github/workflows/gpu-blackbox.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate Bash syntax
+        run: bash -n tools/gpu-blackbox/cthulhu-gpu-blackbox.sh
+      - name: Verify help output
+        run: |
+          bash tools/gpu-blackbox/cthulhu-gpu-blackbox.sh help | grep -F "Cthulhu GPU Blackbox v1.1"
+      - name: Reject invalid mount paths
+        run: |
+          if env BLACKBOX_MOUNT=not-an-absolute-path bash tools/gpu-blackbox/cthulhu-gpu-blackbox.sh help; then
+            echo "Invalid mount accepted!" >&2
+            exit 1
+          fi
+      - name: Check key feature signatures
+        run: |
+          grep -F 'journalctl -k --boot' tools/gpu-blackbox/cthulhu-gpu-blackbox.sh
+          grep -F 'complete=yes' tools/gpu-blackbox/cthulhu-gpu-blackbox.sh
+          grep -F 'ConditionPathIsMountPoint=' tools/gpu-blackbox/cthulhu-gpu-blackbox.sh
