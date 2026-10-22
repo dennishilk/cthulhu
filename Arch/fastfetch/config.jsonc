@@ -93,7 +93,7 @@
     {
       "key": "│ └  age   │",
       "type": "command",
-      "text": "birth_install=$(stat -c %Y ~/.config/fastfetch/cthulhu-born); current=$(date +%s); echo $(((current - birth_install) / 86400)) days"
+      "text": "birth=$(date -r ~/.config/fastfetch/cthulhu-born +%F); today=$(date +%F); echo $(( ($(date -u -d $today +%s) - $(date -u -d $birth +%s)) / 86400 )) days"
     },
 
     {
