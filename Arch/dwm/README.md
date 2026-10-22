@@ -4,7 +4,7 @@ A minimal, two-monitor daily-driver desktop built from the official **stable dwm
 
 ## Hard boundary: Arch base belongs to you
 
-You install Arch, `linux`, firmware, GRUB, Btrfs, Snapper, snap-pac, grub-btrfs, `multilib`, zram and game-disk mounts yourself. The bootstrap **does not** partition, format, mount, or edit `/etc/fstab`, GRUB, EFI, Snapper or your SSH keys. The **only** pacman.conf changes made are `Color` and `ILoveCandy` within `[options]` (after inspecting the section and backing up the original); `[multilib]` remains as you configured it. Leave your existing game SSDs untouched. Confirm the installation NVMe by its serial number before installing Arch.
+You install Arch, the kernel and firmware, **your chosen bootloader**, root filesystem, `multilib`, swap arrangement and game-disk mounts yourself. **Cthulhu's verified October 2026 setup uses Btrfs with root subvolume `@` and systemd-boot with a UKI (`arch-linux.efi`), not GRUB.** Snapper, GRUB and grub-btrfs were planning options, not verified components of this final boot setup. The bootstrap **does not** partition, format, mount, or edit `/etc/fstab`, bootloader/EFI/UKI entries, snapshots or SSH keys. The **only** pacman.conf changes made are `Color` and `ILoveCandy` within `[options]` (after inspecting the section and backing up the original); `[multilib]` remains as you configured it. Leave your existing game SSDs untouched. Confirm the installation NVMe by its serial number before installing Arch.
 
 The bootstrap requires a working Arch installation, non-root user `nebu` with sudo, online pacman mirrors, the enabled and synced `multilib` repository, git and internet access. It performs a full normal pacman update; finish the base setup first. It uses official Arch repositories and installs `yay`/Google Chrome from AUR (AUR build scripts are third-party code; review them if you want). If anything fails, it stops rather than silently continuing.
 
@@ -83,6 +83,10 @@ On Arch/Xorg, `DP-2` offers 3440×1440 at **60, 100, 120 and 144 Hz**; 144 Hz wa
 - No Bluetooth, CUPS, dunst, extra PDF viewer, extra image viewer, standalone GUI search or desktop locker.
 
 Steam, Lutris and OBS intentionally come **after** native Xorg, audio and 64/32-bit Vulkan checks. This Linux reinstallation is not a proven fix for earlier RX 9060 XT hardlocks.
+
+## Real-world October 2026 follow-up
+
+The Arch/dwm build was used on Cthulhu with working Rofi, Steam, 64/32-bit Vulkan, dual monitors, PipeWire, and a later successful OBS Vulkan Game Capture test (Quake II). For that test, OBS used FFmpeg VAAPI AV1 at 3440×1440/60 FPS, recording to `/mnt/Homelab/Obs`; `obs-vkcapture-git` and `lib32-obs-vkcapture-git` exposed the OBS Game Capture source, and the Steam game launched with `OBS_VKCAPTURE=1 %command%`. A seven-minute recording was confirmed good. This is an **observed Cthulhu result**, not part of the base bootstrap and not a promise for all Vulkan titles. See the [DE](https://www.dennishilk.com/de/blog/arch-linux-dwm-cthulhu/) or [EN](https://www.dennishilk.com/blog/arch-linux-dwm-cthulhu/) build story.
 
 ## Testing limitations
 
